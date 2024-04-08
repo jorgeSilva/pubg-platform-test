@@ -277,21 +277,25 @@ export default function PerfilID({params}: IURL){
   
   async function handleClick(){
     if(user){
-      const response: IStats = await fetchApiPubgStats(user?.data[0].id)
-      const valueResponse: any = Object.values(response.data.attributes.gameModeStats)
+      try{
+        const response: IStats = await fetchApiPubgStats(user?.data[0].id)
+        if(response){
+          const valueResponse: any = Object.values(response.data.attributes.gameModeStats)
 
-      if(valueResponse){
-        return setStats({
-          'duo': valueResponse[0],
-          'duo_fpp': valueResponse[1],
-          'solo': valueResponse[2],
-          'solo_fpp': valueResponse[3],
-          'squad': valueResponse[4],
-          'squad_fpp': valueResponse[5]
-        })
+          return setStats({
+            'duo': valueResponse[0],
+            'duo_fpp': valueResponse[1],
+            'solo': valueResponse[2],
+            'solo_fpp': valueResponse[3],
+            'squad': valueResponse[4],
+            'squad_fpp': valueResponse[5]
+          })
+        }
+      }catch(err){
+        setError('Erro ao encontrar usuario')
       }
     }else{
-      setError('Erro pra krl')
+      setError('Erro ao pegar o krl do usuario')
     }
   }
 
@@ -309,7 +313,7 @@ export default function PerfilID({params}: IURL){
       <h3>{params.id}</h3>
       <button onClick={handleClick}>Ver estatisticas</button>
       {
-        stats instanceof Object ?
+        stats && error === null ?
         <>
           <p> Assistencia: {stats.squad_fpp.assists}</p>
           <p> Kills: {stats.squad_fpp.kills}</p>
@@ -317,7 +321,7 @@ export default function PerfilID({params}: IURL){
           <p> DBNOS: {stats.squad_fpp.dBNOs}</p>
         </>
         :
-        <p>nada</p>
+        <p>{error}</p>
       }
     </>
   )
