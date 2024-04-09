@@ -1,7 +1,7 @@
 'use client'
 
-import { fetchApiPubgUser, fetchApiPubgStats } from "@/actions/fetch-api-pubg-stats"
-import React, { use } from "react"
+import { fetchApiPubgUser, fetchApiPubgStats, fetchApiPubgMastery } from "@/actions/fetch-api-pubg-stats"
+import React from "react"
 
 type IURL = {
   params: {
@@ -270,15 +270,56 @@ type IStatsFormt = {
   }
 }
 
+type IWeapons =  {
+  name: string,
+  weapon: {
+    CompetitiveStatsTotal: {
+      DamagePlayer:number,
+      Defeats:number,
+      Groggies:number,
+      HeadShots:number,
+      Kills:number,
+      LongestKill:number,
+      MostDefeatsInAGame:number,
+      MostKillsInAGame: number
+    },
+    LevelCurrent: number,
+    Medals: [],
+    OfficialStatsTotal: {
+      DamagePlayer:number,
+      Defeats:number,
+      Groggies:number,
+      HeadShots:number,
+      Kills:number,
+      LongestKill:number,
+      MostDefeatsInAGame:number,
+      MostKillsInAGame: number
+    },
+    StatsTotal: {
+      DamagePlayer:number,
+      Defeats:number,
+      Groggies:number,
+      HeadShots:number,
+      Kills:number,
+      LongestKill:number,
+      MostDefeatsInAGame:number,
+      MostKillsInAGame: number
+    }
+    TierCurrent: number,
+    XPTotal: number
+  }
+}
+
 export default function PerfilID({params}: IURL){
   const [user, setuser] = React.useState<IUser | null>(null)
-  const [error, setError] = React.useState<string | null>(null)
+  const [error, setError] = React.useState<{msg: string, fetch: string} | null>(null)
   const [stats, setStats] = React.useState<IStatsFormt | null>(null)
+  const [mastery, setMastery] = React.useState<IWeapons[] | null>(null)
   
   async function handleClick(){
     if(user){
       try{
-        const response: IStats = await fetchApiPubgStats(user?.data[0].id)
+        const response: IStats = await fetchApiPubgStats(user.data[0].id)
         if(response){
           const valueResponse: any = Object.values(response.data.attributes.gameModeStats)
 
@@ -292,10 +333,33 @@ export default function PerfilID({params}: IURL){
           })
         }
       }catch(err){
-        setError('Erro ao encontrar usuario')
+        setError({msg: 'Erro ao encontrar usuario', fetch: 'handleClick'})
       }
     }else{
-      setError('Erro ao pegar o krl do usuario')
+      setError({msg: 'Erro ao encontrar usuario', fetch: 'handleClick'})
+    }
+  }
+
+  async function handleWeapons(){
+    if(user){
+       try{
+        const response: any = await fetchApiPubgMastery(user.data[0].id)
+        const key: any = Object.keys(response.data.attributes.weaponSummaries)
+        const value: any = Object.keys(response.data.attributes.weaponSummaries).map(chave => response.data.attributes.weaponSummaries[chave])
+        
+        const armasComEstatisticas = key.map((nome: any, index: number) => {
+            return {
+                name: nome.split("_")[2],
+                weapon: value[index]
+            };
+        });
+
+        setMastery(armasComEstatisticas)
+      }catch(err){
+        return setError({msg: 'Erro ao encontrar usuario', fetch: 'handleWeapons'})
+      }
+    }else{
+      return setError({msg: 'Erro ao encontrar usuario', fetch: 'handleWeapons'})
     }
   }
 
@@ -310,19 +374,53 @@ export default function PerfilID({params}: IURL){
 
   return (
     <>
-      <h3>{params.id}</h3>
+      <h2>{params.id}</h2>
       <button onClick={handleClick}>Ver estatisticas</button>
-      {
-        stats && error === null ?
-        <>
-          <p> Assistencia: {stats.squad_fpp.assists}</p>
-          <p> Kills: {stats.squad_fpp.kills}</p>
-          <p> Maximo de kills: {stats.squad_fpp.dailyKills}</p>
-          <p> DBNOS: {stats.squad_fpp.dBNOs}</p>
-        </>
-        :
-        <p>{error}</p>
-      }
+      <div>
+        {
+          stats && error === null ?
+          <>
+            <p> Assistencia: {stats.squad_fpp.assists}</p>
+            <p> Kills: {stats.squad_fpp.kills}</p>
+            <p> Tiros na cabeça: {stats.squad_fpp.headshotKills}</p>
+            <p> DBNOS: {stats.squad_fpp.dBNOs}</p>
+          </>
+          :
+          <>
+          {
+            error && error.fetch === 'handleClick' &&
+            <p>{error?.msg}</p>
+          }
+          </>
+        }
+      </div>
+      
+      <button onClick={handleWeapons}>Ver dominio das armas</button>
+      <div>
+        {
+          mastery && error === null ?
+            <div>
+              {
+                mastery.map(value => (
+                  <div key={value.name}>
+                    <h4>{value.name}</h4>
+                    <p>Nível da arma: {value.weapon.TierCurrent}</p>
+                    <p>XP: {value.weapon.XPTotal}</p>
+                    <p>Mortes: {value.weapon.OfficialStatsTotal.Kills}</p>
+                  </div>
+                ))
+              }
+            </div>
+          :
+          <>
+          {
+            error && error.fetch === 'handleWeapons' &&
+            <p>{error?.msg}</p>
+          }
+          </>
+        }
+      </div>
+      
     </>
   )
 }

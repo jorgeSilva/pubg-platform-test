@@ -1,8 +1,8 @@
 'use server'
 
-export async function fetchApiPubgUser(params: string){
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3Y2U1YzczMC1jYTg4LTAxM2MtZWJhNS0zNjg3NTE2NDZiZTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExMTE4NjE2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii0zYzlhZWUxNS02ZjAyLTQ5MzYtYjU5NC0xYjZmNTcxZjMzMTEifQ.JId6M-0Ow5yoE1cRmHsV8QuTgmOji0FcnK7FPSSBIEs"
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3Y2U1YzczMC1jYTg4LTAxM2MtZWJhNS0zNjg3NTE2NDZiZTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExMTE4NjE2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii0zYzlhZWUxNS02ZjAyLTQ5MzYtYjU5NC0xYjZmNTcxZjMzMTEifQ.JId6M-0Ow5yoE1cRmHsV8QuTgmOji0FcnK7FPSSBIEs"
 
+export async function fetchApiPubgUser(params: string){
   try{
     const response = await fetch(`https://api.pubg.com/shards/steam/players?filter[playerNames]=${params}`, {
       method: 'GET',
@@ -22,7 +22,6 @@ export async function fetchApiPubgUser(params: string){
 }
 
 export async function fetchApiPubgStats(params: string) {
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3Y2U1YzczMC1jYTg4LTAxM2MtZWJhNS0zNjg3NTE2NDZiZTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExMTE4NjE2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii0zYzlhZWUxNS02ZjAyLTQ5MzYtYjU5NC0xYjZmNTcxZjMzMTEifQ.JId6M-0Ow5yoE1cRmHsV8QuTgmOji0FcnK7FPSSBIEs"
   try{
     const stats = await fetch(`https://api.pubg.com/shards/steam/players/${params}/seasons/lifetime?filter[gamepad]=false`, {
       method: 'GET',
@@ -36,6 +35,25 @@ export async function fetchApiPubgStats(params: string) {
     const data_stats = await stats.json()
 
     return data_stats
+  }catch(error){
+    return {ok: false, error}
+  }
+}
+
+export async function fetchApiPubgMastery(params: string) {
+  try{
+    const mastery = await fetch(`https://api.pubg.com/shards/steam/players/${params}/weapon_mastery`, {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Accept': 'application/vnd.api+json'
+      }
+    })
+
+    const data_mastery = await mastery.json()
+
+    return data_mastery
   }catch(error){
     return {ok: false, error}
   }
