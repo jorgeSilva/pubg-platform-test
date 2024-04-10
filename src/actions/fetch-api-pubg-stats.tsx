@@ -21,9 +21,9 @@ export async function fetchApiPubgUser(params: string){
   }
 }
 
-export async function fetchApiPubgStats(params: string) {
+export async function fetchApiPubgStats(params: string, platform: string) {
   try{
-    const stats = await fetch(`https://api.pubg.com/shards/steam/players/${params}/seasons/lifetime?filter[gamepad]=false`, {
+    const stats = await fetch(`https://api.pubg.com/shards/${platform}/players/${params}/seasons/lifetime?filter[gamepad]=false`, {
       method: 'GET',
       cache: 'no-store',
       headers: {
@@ -58,3 +58,15 @@ export async function fetchApiPubgMastery(params: string) {
     return {ok: false, error}
   }
 }
+
+// CLAN
+// https://api.pubg.com/shards/steam/clans/clan.c1bc11f97a954a6ab72318bc56f860d2
+
+// MATCHES
+// https://api.pubg.com/shards/steam/matches/2d5b84e7-9afb-48d2-a3d8-2802a22f7453
+
+// RANKED STATS
+// https://api.pubg.com/shards/steam/players/account.dea796afe873415a817c88d9c98a4340/seasons/division.bro.official.pc-2018-28/ranked
+
+// SEASON STAS
+// https://api.pubg.com/shards/steam/players/account.dea796afe873415a817c88d9c98a4340/seasons/division.bro.official.pc-2018-29?filter[gamepad]=false
