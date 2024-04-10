@@ -640,8 +640,7 @@ export default function PerfilID({params}: IURL){
                   }}>
                     <option id="modoWeapon" value={''}></option>
                     <option id="modoWeapon" value={'CompetitiveStatsTotal'}>Estatistica modo ranked</option>
-                    <option id="modoWeapon" value={'OfficialStatsTotal'}>Estatistica modo oficial</option>
-                    <option id="modoWeapon" value={'StatsTotal'}>Estatisticas gerais</option>
+                    <option id="modoWeapon" value={'OfficialStatsTotal'}>Estatistica modo normal</option>
                   </select>
                   <div style={{display:"flex", height:"auto",  flexWrap:"wrap"}}>
                     { 
@@ -654,6 +653,13 @@ export default function PerfilID({params}: IURL){
                             <p>Nível da arma: {value.weapon.TierCurrent}</p>
                             <p>XP: {value.weapon.XPTotal}</p>
                             <p>Mortes: {value.weapon.CompetitiveStatsTotal.Kills}</p>
+                            <p>Dano causado: {value.weapon.CompetitiveStatsTotal.DamagePlayer}</p>
+                            <p>Tiros na cabeça: {value.weapon.CompetitiveStatsTotal.HeadShots}</p>
+                            <p>Maior numero de mortes em uma partida: {value.weapon.CompetitiveStatsTotal.MostKillsInAGame}</p>
+                            <p>Morte mais longa: {value.weapon.CompetitiveStatsTotal.LongestKill}</p>
+                            <p>Nocauteados: {value.weapon.CompetitiveStatsTotal.Groggies}</p>
+                            <p>Mais derrotas em uma partida: {value.weapon.CompetitiveStatsTotal.MostDefeatsInAGame}</p>
+                            <p>Derrotas da carreira: {value.weapon.CompetitiveStatsTotal.Defeats}</p>
                           </div>
                         ))
                       )
@@ -666,18 +672,13 @@ export default function PerfilID({params}: IURL){
                             <p>Nível da arma: {value.weapon.TierCurrent}</p>
                             <p>XP: {value.weapon.XPTotal}</p>
                             <p>Mortes: {value.weapon.OfficialStatsTotal.Kills}</p>
-                          </div>
-                        ))
-                      )
-                      ||
-                      (
-                        modoWeapon === "StatsTotal" &&
-                          mastery.map(value => (
-                          <div key={value.name} style={{padding:"1rem"}}>
-                            <h4>{value.name}</h4>
-                            <p>Nível da arma: {value.weapon.TierCurrent}</p>
-                            <p>XP: {value.weapon.XPTotal}</p>
-                            <p>Mortes: {value.weapon.StatsTotal.Kills}</p>
+                            <p>Dano causado: {value.weapon.OfficialStatsTotal.DamagePlayer}</p>
+                            <p>Tiros na cabeça: {value.weapon.OfficialStatsTotal.HeadShots}</p>
+                            <p>Maior numero de mortes em uma partida: {value.weapon.OfficialStatsTotal.MostKillsInAGame}</p>
+                            <p>Morte mais longa: {value.weapon.OfficialStatsTotal.LongestKill}</p>
+                            <p>Nocauteados: {value.weapon.OfficialStatsTotal.Groggies}</p>
+                            <p>Mais derrotas em uma partida: {value.weapon.OfficialStatsTotal.MostDefeatsInAGame}</p>
+                            <p>Derrotas da carreira: {value.weapon.OfficialStatsTotal.Defeats}</p>
                           </div>
                         ))
                       )
