@@ -546,36 +546,56 @@ export default function PerfilID({params}: IURL){
                     (
                       modo === "squad_fpp" &&
                       <>
-                        <p> Assistencias: {stats.squad_fpp.assists}</p>
-                        <p> Mortes: {stats.squad_fpp.kills}</p>
-                        <p> Tiros na cabeça: {stats.squad_fpp.headshotKills}</p>
-                        <p> Nocautes: {stats.squad_fpp.dBNOs}</p>
-                        <p> Itens de reforço utilizados (Famoso birico): {stats.squad_fpp.boosts}</p>
-                        <p> Mortes durante o ultimo dia jogado: {stats.squad_fpp.dailyKills}</p>
-                        <p> Dano causado: {stats.squad_fpp.damageDealt}</p>
-                        <p> Dias: {stats.squad_fpp.days}</p>
-                        <p> Vitórias do ultimo dia jogado: {stats.squad_fpp.dailyWins}</p>
-                        <p> Itens de cura utilizados: {stats.squad_fpp.heals}</p>
-                        <p> Morte mais longa: {stats.squad_fpp.longestKill}</p>
-                        <p> Maior tempo de sobrevivencia durante uma partida: {stats.squad_fpp.longestTimeSurvived}</p>
-                        <p> Partidas perdidas: {stats.squad_fpp.losses}</p>
-                        <p> Maior sequencia de mortes: {stats.squad_fpp.maxKillStreaks}</p>
-                        <p> Reviviu companheiros: {stats.squad_fpp.revives}</p>
-                        <p> Distancia percorrida de carro: {stats.squad_fpp.rideDistance}</p>
-                        <p> Mortes causadas por veiculos: {stats.squad_fpp.roadKills}</p>
-                        <p> Maior numero de mortes em uma unica partida: {stats.squad_fpp.roundMostKills}</p>
-                        <p> Partidas disputadas: {stats.squad_fpp.roundsPlayed}</p>
-                        <p> Suicidios: {stats.squad_fpp.suicides}</p>
-                        <p> Distancia percorrida enquanto nadava: {stats.squad_fpp.swimDistance}m</p>
-                        <p> Vezes que matou um colega de equipe: {stats.squad_fpp.teamKills}</p>
-                        <p> Tempo de sobrevivencia: {stats.squad_fpp.timeSurvived}</p>
-                        <p> Top 10: {stats.squad_fpp.top10s}</p>
-                        <p> Veiculos destruidos: {stats.squad_fpp.vehicleDestroys}</p>
-                        <p> Distancia percorrida a pé: {stats.squad_fpp.walkDistance}</p>
-                        <p> Armas adqueridas: {stats.squad_fpp.weaponsAcquired}</p>
-                        <p> Mortes durante a ultima semana jogada: {stats.squad_fpp.weeklyKills}</p>
-                        <p> Vitórias durante a ultima semana jogada: {stats.squad_fpp.weeklyWins}</p>
-                        <p> Vitórias: {stats.squad_fpp.wins}</p>
+                        <div>
+                          <h4>Ofensivas Jogador</h4>
+                          <p> Nocautes: {stats.squad_fpp.dBNOs}</p>
+                          <p> Mortes: {stats.squad_fpp.kills}</p>
+                          <p> Assistencias: {stats.squad_fpp.assists}</p>
+                          <p> Dano causado: {stats.squad_fpp.damageDealt}</p>
+                          <p> Tiros na cabeça: {stats.squad_fpp.headshotKills}</p>
+                          <p> Morte mais longa: {stats.squad_fpp.longestKill}</p> 
+                          <p> N° mortes em uma partida: {stats.squad_fpp.roundMostKills}</p>
+                          <p> N° armas adqueridas: {stats.squad_fpp.weaponsAcquired}</p>
+                          <p> Maior sequencia de mortes: {stats.squad_fpp.maxKillStreaks}</p>
+                          <p> Mortes causadas por veiculos: {stats.squad_fpp.roadKills}</p>
+                          <p> N° ultimo dia jogado: {stats.squad_fpp.dailyKills}</p>
+                          <p> N° ultima semana jogada: {stats.squad_fpp.weeklyKills}</p>
+                        </div>
+
+                        <div>
+                          <h4>Sobrevivencia jogador</h4>
+                          <p> Dias: {stats.squad_fpp.days}</p>
+                          <p> Partidas disputadas: {stats.squad_fpp.roundsPlayed}</p>
+                          <p> Partidas perdidas: {stats.squad_fpp.losses}</p>
+                          <p> Vitórias: {stats.squad_fpp.wins}</p>
+                          <p> Tempo de sobrevivencia: {stats.squad_fpp.timeSurvived}</p>
+                          <p> Maior tempo de sobrevivencia durante uma partida: {stats.squad_fpp.longestTimeSurvived}</p>
+                          <p> Vitórias do ultimo dia jogado: {stats.squad_fpp.dailyWins}</p>
+                          <p> Vitórias durante a ultima semana jogada: {stats.squad_fpp.weeklyWins}</p>
+                          <p> Top 10: {stats.squad_fpp.top10s}</p>
+                        </div>
+
+                        <div>
+                          <h4>Curandeiro</h4>
+                          <p> Itens de cura utilizados: {stats.squad_fpp.heals}</p>
+                          <p> Itens de reforço utilizados (Famoso birico): {stats.squad_fpp.boosts}</p>
+                          <p> Reviveu companheiros: {stats.squad_fpp.revives}</p>
+                        </div>
+
+                        <div>
+                          <h4>Distancias</h4>
+                          <p> Distancia percorrida a pé: {stats.squad_fpp.walkDistance}</p>
+                          <p> Distancia percorrida de carro: {stats.squad_fpp.rideDistance}</p>
+                          <p> Distancia percorrida enquanto nadava: {stats.squad_fpp.swimDistance}m</p>
+                          <p> Veiculos destruidos: {stats.squad_fpp.vehicleDestroys}</p>
+                        </div>
+
+                        <div>
+                          <h4>Conteudo para a tropa</h4>
+                          <p> Suicidios: {stats.squad_fpp.suicides}</p>
+                          <p> Vezes que matou um colega de equipe: {stats.squad_fpp.teamKills}</p>
+                        </div>
+                        
                       </>
                     )
                     ||
