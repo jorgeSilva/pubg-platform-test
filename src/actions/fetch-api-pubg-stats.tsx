@@ -59,6 +59,25 @@ export async function fetchApiPubgMastery(params: string) {
   }
 }
 
+export async function fetchApiPubgMatched(id: string, platform: string){
+  try{
+    const match = await fetch(`https://api.pubg.com/shards/${platform}/matches/${id}`, {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Accept': 'application/vnd.api+json'
+      }
+    })
+
+    const data_match = await match.json()
+
+    return data_match
+  }catch(error){
+    return {ok: false, error}
+  }
+}
+
 // CLAN
 // https://api.pubg.com/shards/steam/clans/clan.c1bc11f97a954a6ab72318bc56f860d2
 

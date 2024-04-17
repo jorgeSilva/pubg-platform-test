@@ -22,7 +22,15 @@ type IUser = {
     },
     id: string,
     links: {},
-    relationships: {}
+    relationships: {
+      assets: {},
+      matches: {
+        data: [{
+          type:  'match',
+          id: string
+        }]
+      }
+    }
     type: string
   }],
   links: {},
@@ -312,6 +320,7 @@ type IWeapons =  {
 
 export default function PerfilID({params}: IURL){
   const [user, setuser] = React.useState<IUser | null>(null)
+  const [mathes, setMatches] = React.useState< any | null>(null)
   const [error, setError] = React.useState<{msg: string, fetch: string} | null>(null)
   const [stats, setStats] = React.useState<IStatsFormt | null>(null)
   const [mastery, setMastery] = React.useState<IWeapons[] | null>(null)
@@ -366,9 +375,11 @@ export default function PerfilID({params}: IURL){
   }
 
   async function handledata(){
-    const response = await fetchApiPubgUser(params.id)
+    const response: IUser = await fetchApiPubgUser(params.id)
+    console.log(response.data[0].relationships.matches)
     setuser(response)
   }
+
 
   React.useEffect(() => {
     handledata()
@@ -558,8 +569,8 @@ export default function PerfilID({params}: IURL){
                           <p> N° armas adqueridas: {stats.squad_fpp.weaponsAcquired}</p>
                           <p> Maior sequencia de mortes: {stats.squad_fpp.maxKillStreaks}</p>
                           <p> Mortes causadas por veiculos: {stats.squad_fpp.roadKills}</p>
-                          <p> N° ultimo dia jogado: {stats.squad_fpp.dailyKills}</p>
-                          <p> N° ultima semana jogada: {stats.squad_fpp.weeklyKills}</p>
+                          <p> N° mortes ultimo dia jogado: {stats.squad_fpp.dailyKills}</p>
+                          <p> N° mortes ultima semana jogada: {stats.squad_fpp.weeklyKills}</p>
                         </div>
 
                         <div>
@@ -716,7 +727,6 @@ export default function PerfilID({params}: IURL){
           </div>
         </section>
       </article>
-      
     </>
   )
 }
