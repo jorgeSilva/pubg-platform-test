@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchApiPubgMatched, fetchApiPubgUser } from "@/actions/fetch-api-pubg-stats"
+import { fetchApiPubgMatched, fetchApiPubgTelemetry, fetchApiPubgUser } from "@/actions/fetch-api-pubg-stats"
 import React from "react"
 
 type IUser = {
@@ -279,10 +279,17 @@ export default function PartidasPage({params}: any){
     setParceiro(amigo)
   }
 
+  async function handleTelemetry(){
+    if(telemetry?.attributes.URL !== undefined){
+      const response = await fetchApiPubgTelemetry(telemetry?.attributes.URL)
+      console.log(response);
+    }
+  }
+
   function handleMinutos(temp: any){
     const minutos = temp / 60
     const segundos = temp % 60
-    return `${minutos.toFixed(0)}m:${segundos}s`
+    return `${minutos.toFixed(0)}m ${segundos}s`
   }
 
   function handleMetros(metros: any){
@@ -293,8 +300,9 @@ export default function PartidasPage({params}: any){
 
   React.useEffect(() => {
     handledata()
-    resultMatches && perfilPartida ? handleFriendsInPlay(perfilPartida.id): null
-  }, [resultMatches, perfilPartida])
+    resultMatches && perfilPartida && handleFriendsInPlay(perfilPartida.id)
+    telemetry && handleTelemetry()
+  }, [resultMatches, perfilPartida, telemetry])
 
   return (
     <>
@@ -309,7 +317,7 @@ export default function PartidasPage({params}: any){
         }
       </select>
 
-      <div>
+      <section>
         <h1>Partida</h1>
         <div>
           <p>Duração da partida: { partida && handleMinutos(partida?.duration)}</p>
@@ -384,7 +392,7 @@ export default function PartidasPage({params}: any){
                       <p>Nocautes: {item.attributes.stats?.DBNOs}</p>
                       <p>Mortes: {item.attributes.stats?.kills.toFixed(0)}</p>
                       <p>Assistencias: {item.attributes.stats?.assists}</p>
-                      <p>Dano causado: {item.attributes.stats?.damageDealt}</p>
+                      <p>Dano causado: {item.attributes.stats?.damageDealt.toFixed(0)}</p>
                       <p>Tiros na cabeça: {item.attributes.stats?.headshotKills}</p>
                       <p>Morte mais distante: {item.attributes.stats?.longestKill.toFixed(0)}m</p>
                       <p>Reviveu companheiros: {item.attributes.stats?.revives}</p>
@@ -400,6 +408,13 @@ export default function PartidasPage({params}: any){
             </div>
           </div>
         </div>
+      </section>
+
+      <div>
+        <h3>Telemetria</h3>
+        {
+          telemetry?.id  
+        }
       </div>
     </>
   )

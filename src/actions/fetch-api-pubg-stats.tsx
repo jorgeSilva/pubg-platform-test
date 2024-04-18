@@ -78,6 +78,27 @@ export async function fetchApiPubgMatched(id: string, platform: string){
   }
 }
 
+export async function fetchApiPubgTelemetry(URL: string) {
+  let loading:boolean = true
+  try{
+    loading = true
+    const telemetry = await fetch(URL, {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Accept': 'application/vnd.api+json'
+      }
+    })
+
+    const data_telemetry = await telemetry.json()
+    loading = false
+    return {data: data_telemetry, loading, ok: true}
+  }catch(err){
+    return {ok: false, loading, err}
+  }
+}
+
 // CLAN
 // https://api.pubg.com/shards/steam/clans/clan.c1bc11f97a954a6ab72318bc56f860d2
 
