@@ -376,10 +376,28 @@ export default function PerfilID({params}: IURL){
 
   async function handledata(){
     const response: IUser = await fetchApiPubgUser(params.id)
-    console.log(response.data[0].relationships.matches)
     setuser(response)
   }
 
+  function handleDias(temp: any){
+    const dias = (temp / 86400)
+    const horas = ((temp % 86400) / 3600)
+    const minutos = (((temp % 86400) % 3600) / 60)
+    const segundos = (((temp % 86400) % 3600) % 60)
+    return `${dias.toFixed(0)} dias ${ horas < 1  ? 0 : horas.toFixed(0)}h:${minutos.toFixed(0)}m:${segundos.toFixed(0)}s`
+  }
+
+  function handleMinutos(temp: any){
+    const minutos = temp / 60
+    const segundos = temp % 60
+    return `${minutos.toFixed(0)}m:${segundos}s`
+  }
+
+  function handleMetros(metros: any){
+    const km = metros / 1000
+    const m = metros % 1000
+    return `${ km < 1 ? '' : (km.toFixed(0)+'km')} ${m.toFixed(0)}m`
+  }
 
   React.useEffect(() => {
     handledata()
@@ -562,9 +580,9 @@ export default function PerfilID({params}: IURL){
                           <p> Nocautes: {stats.squad_fpp.dBNOs}</p>
                           <p> Mortes: {stats.squad_fpp.kills}</p>
                           <p> Assistencias: {stats.squad_fpp.assists}</p>
-                          <p> Dano causado: {stats.squad_fpp.damageDealt}</p>
+                          <p> Dano causado: {stats.squad_fpp.damageDealt.toFixed(0)}</p>
                           <p> Tiros na cabeça: {stats.squad_fpp.headshotKills}</p>
-                          <p> Morte mais longa: {stats.squad_fpp.longestKill}</p> 
+                          <p> Morte mais longa: {stats.squad_fpp.longestKill.toFixed(0)}m</p> 
                           <p> N° mortes em uma partida: {stats.squad_fpp.roundMostKills}</p>
                           <p> N° armas adqueridas: {stats.squad_fpp.weaponsAcquired}</p>
                           <p> Maior sequencia de mortes: {stats.squad_fpp.maxKillStreaks}</p>
@@ -579,8 +597,8 @@ export default function PerfilID({params}: IURL){
                           <p> Partidas disputadas: {stats.squad_fpp.roundsPlayed}</p>
                           <p> Partidas perdidas: {stats.squad_fpp.losses}</p>
                           <p> Vitórias: {stats.squad_fpp.wins}</p>
-                          <p> Tempo de sobrevivencia: {stats.squad_fpp.timeSurvived}</p>
-                          <p> Maior tempo de sobrevivencia durante uma partida: {stats.squad_fpp.longestTimeSurvived}</p>
+                          <p> Tempo de sobrevivencia: {handleDias(stats.squad_fpp.timeSurvived)}</p>
+                          <p> Maior tempo de sobrevivencia durante uma partida: {handleMinutos(stats.squad_fpp.longestTimeSurvived)}</p>
                           <p> Vitórias do ultimo dia jogado: {stats.squad_fpp.dailyWins}</p>
                           <p> Vitórias durante a ultima semana jogada: {stats.squad_fpp.weeklyWins}</p>
                           <p> Top 10: {stats.squad_fpp.top10s}</p>
@@ -595,9 +613,9 @@ export default function PerfilID({params}: IURL){
 
                         <div>
                           <h4>Distancias</h4>
-                          <p> Distancia percorrida a pé: {stats.squad_fpp.walkDistance}</p>
-                          <p> Distancia percorrida de carro: {stats.squad_fpp.rideDistance}</p>
-                          <p> Distancia percorrida enquanto nadava: {stats.squad_fpp.swimDistance}m</p>
+                          <p> Distancia percorrida a pé: {handleMetros(stats.squad_fpp.walkDistance)}</p>
+                          <p> Distancia percorrida de carro: {handleMetros(stats.squad_fpp.rideDistance)}</p>
+                          <p> Distancia percorrida enquanto nadava: {handleMetros(stats.squad_fpp.swimDistance)}</p>
                           <p> Veiculos destruidos: {stats.squad_fpp.vehicleDestroys}</p>
                         </div>
 

@@ -110,7 +110,7 @@ type IMatch = {
 					killPlace: number, // A classificação deste jogador na partida com base nas mortes
 					killStreaks: number, // Numero total de mortes em sequencia
 					kills: number, // Numero de jogadores mortos
-					longesKill: number, // Morte mais distante
+					longestKill: number, // Morte mais distante
 					name: string, // PUBG IGN do jogador associado a este participante
 					playerId: string, // Id da conta do jogador associado a este participante
 					revives: number, // Numero de vezes que este jogador reviveu companheiros de equipe
@@ -187,7 +187,7 @@ type IParticipant = {
       killPlace: number,
       killStreaks: number,
       kills: number,
-      longesKill: number,
+      longestKill: number,
       name: string,
       playerId: string,
       revives: number,
@@ -235,6 +235,7 @@ export default function PartidasPage({params}: any){
   const [telemetry, setTelemetry] = React.useState<IAsset | null>(null)
   const [partida, setPartida] = React.useState<IPartida | null>(null)
   const [perfilPartida, setPerfilPartida] = React.useState<IParticipant | IRoster | IAsset | null>(null)
+  const [parceiro, setParceiro] = React.useState<IParticipant[] | null>(null)
 
   async function handledata(){
     const response: IUser = await fetchApiPubgUser(params.id)
@@ -244,25 +245,56 @@ export default function PartidasPage({params}: any){
   async function handleMatched(id: string, platform: string){
     const response: IMatch = await fetchApiPubgMatched(id, platform)
     const typeTelemetry = "asset"
+    let squad: [{}] = [{}] 
+    let IDSearch: string
 
-    response.included.forEach((item) => {
+    // console.log(response)
+    response.included.forEach((item: IAsset | IParticipant | IRoster) => {
       if(item.type === typeTelemetry){
         setTelemetry(item)
       }
-      if(item.attributes.stats?.name === params.id){
+      if(item.attributes && 'stats' in item?.attributes ? item.attributes.stats?.name === params.id : null){
+        IDSearch = item.id
         setPerfilPartida(item)
       }
     })
-
     setPartida(response.data.attributes)
     setResultMathces(response)
   }
 
-  // console.log(perfilPartida?.attributes.stats)
+  function handleFriendsInPlay(id: string){
+    let idFriend: {id: string, type: string}[]
+    resultMatches?.included.map(
+      (item: IAsset | IParticipant | IRoster) => (
+        item && 'relationships' in item && item.relationships.participants.data.map(time => (
+          time.id === id ? idFriend = (item.relationships.participants.data.map(item => item)): null          
+        ))
+      )
+    )
+    let amigo: any[] = []
+    resultMatches?.included.map(players => (
+      idFriend.find(id => players.id === id.id && amigo.push(players))
+    ))
+
+    setParceiro(amigo)
+  }
+
+  function handleMinutos(temp: any){
+    const minutos = temp / 60
+    const segundos = temp % 60
+    return `${minutos.toFixed(0)}m:${segundos}s`
+  }
+
+  function handleMetros(metros: any){
+    const km = metros / 1000
+    const m = metros % 1000
+    return `${ km < 1 ? '' : (km.toFixed(0)+'km')} ${m.toFixed(0)}m`
+  }
 
   React.useEffect(() => {
     handledata()
-  }, [])
+    resultMatches && perfilPartida ? handleFriendsInPlay(perfilPartida.id): null
+  }, [resultMatches, perfilPartida])
 
   return (
     <>
@@ -280,58 +312,93 @@ export default function PartidasPage({params}: any){
       <div>
         <h1>Partida</h1>
         <div>
-          <p>Duração da partida: {partida?.duration}</p>
+          <p>Duração da partida: {handleMinutos(partida?.duration)}</p>
           <p>Modo de jogo: {partida?.gameMode}</p>
           <p>Mapa: {partida?.mapName}</p>
         </div>
 
-        <h2>Sua estatistica na partida</h2>
-        <div>
-          {
-            perfilPartida?.attributes && 'stats' in perfilPartida?.attributes ? 
-            <div>
-              <p>Nome: {perfilPartida?.attributes.stats && 'name' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.name : null}</p>
-              <p>Colocação: {perfilPartida?.attributes.stats && 'winPlace' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.winPlace : null}°</p>
-              <p>Nocautes: {perfilPartida?.attributes.stats && 'DBNOs' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.DBNOs : null}</p>
-              <p>Mortes: {perfilPartida?.attributes.stats && 'kills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.kills : null}</p>
-              <p>Assistencias: {perfilPartida?.attributes.stats && 'assists' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.assists : null}</p>
-              <p>Dano causado: {perfilPartida?.attributes.stats && 'damageDealt' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.damageDealt : null}</p>
-              <p>Tiros na cabeça: {perfilPartida?.attributes.stats && 'headshotKills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.headshotKills : null}</p>
-              <p>Morte mais distante: {perfilPartida?.attributes.stats && 'longesKill' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.longesKill : null}</p>
-              <p>Reviveu companheiros: {perfilPartida?.attributes.stats && 'revives' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.revives : null}</p>
-              <p>Distancia percorrida de carro: {perfilPartida?.attributes.stats && 'rideDistance' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.rideDistance : null}m</p>
-              <p>Distancia percorrida apé: {perfilPartida?.attributes.stats && 'walkDistance' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.walkDistance : null}m</p>
+        <div style={{display: "flex", gap: "3rem"}}>
+          <div>
+            <h2>Sua estatistica na partida</h2>
+            <>
+              {
+                perfilPartida?.attributes && 'stats' in perfilPartida?.attributes &&
+                <div>
+                  <p>Nome:
+                    {perfilPartida?.attributes.stats && 'name' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.name : null}
+                  </p>
+                  <p>Colocação:
+                    {perfilPartida?.attributes.stats && 'winPlace' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.winPlace : null}°
+                  </p>
+                  <p>Tempo de sobrevivencia:
+                    {perfilPartida?.attributes.stats && 'timeSurvived' in perfilPartida?.attributes.stats ? handleMinutos(perfilPartida?.attributes.stats?.timeSurvived) : null}
+                  </p>
+                  <p>Nocautes:
+                    {perfilPartida?.attributes.stats && 'DBNOs' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.DBNOs : null}
+                  </p>
+                  <p>Mortes:
+                    {perfilPartida?.attributes.stats && 'kills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.kills : null}
+                  </p>
+                  <p>Assistencias:
+                    {perfilPartida?.attributes.stats && 'assists' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.assists : null}
+                  </p>
+                  <p>Dano causado:
+                    {perfilPartida?.attributes.stats && 'damageDealt' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.damageDealt.toFixed(0) : null}
+                  </p>
+                  <p>Tiros na cabeça:
+                    {perfilPartida?.attributes.stats && 'headshotKills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.headshotKills : null}
+                  </p>
+                  <p>Morte mais distante:
+                    {perfilPartida?.attributes.stats && 'longestKill' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.longestKill.toFixed(0) : null}m
+                  </p>
+                  <p>Reviveu companheiros:
+                    {perfilPartida?.attributes.stats && 'revives' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.revives : null}
+                  </p>
+                  <p>N° itens de cura:
+                    {perfilPartida?.attributes.stats && 'heals' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.heals : null}
+                  </p>
+                  <p>N° itens de reforço:
+                    {perfilPartida?.attributes.stats && 'boosts' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.boosts : null}
+                  </p>
+                  <p>Distancia percorrida de carro: 
+                    {perfilPartida?.attributes.stats && 'rideDistance' in perfilPartida?.attributes.stats ? handleMetros(perfilPartida?.attributes.stats?.rideDistance.toFixed(0)) : null}
+                  </p>
+                  <p>Distancia percorrida apé: {perfilPartida?.attributes.stats && 'walkDistance' in perfilPartida?.attributes.stats ? handleMetros(perfilPartida?.attributes.stats?.walkDistance.toFixed(0)) : null}</p>
+                </div>
+              }
+            </>
+          </div>
+
+          <div>
+            <h2>Estatisticas parceiros</h2>
+            <div style={{display: "flex", gap: "3rem"}}>
+              {
+                parceiro && parceiro.map((item) => (
+                  <div key={item.id+`${+1}`}>
+                  {
+                    item.id !== perfilPartida?.id &&
+                    <div>
+                      <p>Nome: {item.attributes.stats?.name}</p>
+                      <p>Colocação: {item.attributes.stats?.winPlace}°</p>
+                      <p>Tempo de sobrevivencia: {handleMinutos(item.attributes.stats?.timeSurvived)}</p>
+                      <p>Nocautes: {item.attributes.stats?.DBNOs}</p>
+                      <p>Mortes: {item.attributes.stats?.kills.toFixed(0)}</p>
+                      <p>Assistencias: {item.attributes.stats?.assists}</p>
+                      <p>Dano causado: {item.attributes.stats?.damageDealt}</p>
+                      <p>Tiros na cabeça: {item.attributes.stats?.headshotKills}</p>
+                      <p>Morte mais distante: {item.attributes.stats?.longestKill.toFixed(0)}m</p>
+                      <p>Reviveu companheiros: {item.attributes.stats?.revives}</p>
+                      <p>N° itens de cura: {item.attributes.stats?.heals}</p>
+                      <p>N° itens de reforço: {item.attributes.stats?.boosts}</p>
+                      <p>Distancia percorrida de carro: {handleMetros(item.attributes.stats?.rideDistance.toFixed(0))}</p>
+                      <p>Distancia percorrida apé: {handleMetros(item.attributes.stats?.walkDistance.toFixed(0))}</p>
+                    </div>
+                  }
+                  </div>
+                ))
+              }
             </div>
-             : null 
-          }
-
-          {/* 
-
-            DBNOs: number, // Numero de jogadores derrubados,
-            assists: number, // Numero de jogadores inimigos que este jogador danificou e que foram mortos por companheiros de equipe
-            boosts: number, // Numero de itens de reforço utilizados
-            damageDealt: number, // Dano total causado
-            deathType: string, // A maneira pela qual este jogador morreu, ou vivo, se não o fez [alive, byplayer, byzone, suicide, logout] 
-            headshotKills: number, // Numero de jogadores inimigos mortos com tiros na cabeça
-            heals: number, // Numeros de itens de curas utilizados
-            killPlace: number, // A classificação deste jogador na partida com base nas mortes
-            killStreaks: number, // Numero total de mortes em sequencia
-            kills: number, // Numero de jogadores mortos
-            longesKill: number, // Morte mais distante
-            name: string, // PUBG IGN do jogador associado a este participante
-            playerId: string, // Id da conta do jogador associado a este participante
-            revives: number, // Numero de vezes que este jogador reviveu companheiros de equipe
-            rideDistance: number, // Distancia total percorrida em veiculos medida em metros
-            roadKills: number, // Numero total de mortes enquanto estava em um veiculo
-            swimDistance: number, // Distancia total percorrida enquanto nadava medida em metros
-            teamKills: number, // Numero de vezes que este jogador matou um companheiro de equipe
-            timeSurvived: number, // Quantidade de tempo de sobrevivencias medido em segundos
-            vehicleDestroys: number, // Numero de veiculos destruidos
-            walkDistance: number, // Distancia total percorrida a pe medida em metros
-            weaponsAcquired: number, // Numero de armas recolhidas
-            winPlace: number, // A colocação deste jogador na partida
-
-          */}
+          </div>
         </div>
       </div>
     </>
