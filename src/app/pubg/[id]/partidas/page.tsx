@@ -312,7 +312,7 @@ export default function PartidasPage({params}: any){
       <div>
         <h1>Partida</h1>
         <div>
-          <p>Duração da partida: {handleMinutos(partida?.duration)}</p>
+          <p>Duração da partida: { partida && handleMinutos(partida?.duration)}</p>
           <p>Modo de jogo: {partida?.gameMode}</p>
           <p>Mapa: {partida?.mapName}</p>
         </div>
