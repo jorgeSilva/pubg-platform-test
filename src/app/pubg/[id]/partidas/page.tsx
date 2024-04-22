@@ -301,7 +301,7 @@ export default function PartidasPage({params}: any){
   React.useEffect(() => {
     handledata()
     resultMatches && perfilPartida && handleFriendsInPlay(perfilPartida.id)
-    telemetry && handleTelemetry()
+    // telemetry && handleTelemetry()
   }, [resultMatches, perfilPartida, telemetry])
 
   return (
@@ -322,7 +322,13 @@ export default function PartidasPage({params}: any){
         <div>
           <p>Duração da partida: { partida && handleMinutos(partida?.duration)}</p>
           <p>Modo de jogo: {partida?.gameMode}</p>
-          <p>Mapa: {partida?.mapName}</p>
+          <p>Mapa: {
+            partida?.mapName === "Tiger_Main" && "Taego" || 
+            partida?.mapName === "Baltic_Main" && "Erangel" ||
+            partida?.mapName === "Desert_Main" && "Miramar" || 
+            partida?.mapName === "Kiki_Main" && "Deston" ||
+            partida?.mapName === "Neon_Main" && "Rondo"
+          }</p>
         </div>
 
         <div style={{display: "flex", gap: "3rem"}}>
@@ -332,45 +338,19 @@ export default function PartidasPage({params}: any){
               {
                 perfilPartida?.attributes && 'stats' in perfilPartida?.attributes &&
                 <div>
-                  <p>Nome:
-                    {perfilPartida?.attributes.stats && 'name' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.name : null}
-                  </p>
-                  <p>Colocação:
-                    {perfilPartida?.attributes.stats && 'winPlace' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.winPlace : null}°
-                  </p>
-                  <p>Tempo de sobrevivencia:
-                    {perfilPartida?.attributes.stats && 'timeSurvived' in perfilPartida?.attributes.stats ? handleMinutos(perfilPartida?.attributes.stats?.timeSurvived) : null}
-                  </p>
-                  <p>Nocautes:
-                    {perfilPartida?.attributes.stats && 'DBNOs' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.DBNOs : null}
-                  </p>
-                  <p>Mortes:
-                    {perfilPartida?.attributes.stats && 'kills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.kills : null}
-                  </p>
-                  <p>Assistencias:
-                    {perfilPartida?.attributes.stats && 'assists' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.assists : null}
-                  </p>
-                  <p>Dano causado:
-                    {perfilPartida?.attributes.stats && 'damageDealt' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.damageDealt.toFixed(0) : null}
-                  </p>
-                  <p>Tiros na cabeça:
-                    {perfilPartida?.attributes.stats && 'headshotKills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.headshotKills : null}
-                  </p>
-                  <p>Morte mais distante:
-                    {perfilPartida?.attributes.stats && 'longestKill' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.longestKill.toFixed(0) : null}m
-                  </p>
-                  <p>Reviveu companheiros:
-                    {perfilPartida?.attributes.stats && 'revives' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.revives : null}
-                  </p>
-                  <p>N° itens de cura:
-                    {perfilPartida?.attributes.stats && 'heals' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.heals : null}
-                  </p>
-                  <p>N° itens de reforço:
-                    {perfilPartida?.attributes.stats && 'boosts' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.boosts : null}
-                  </p>
-                  <p>Distancia percorrida de carro: 
-                    {perfilPartida?.attributes.stats && 'rideDistance' in perfilPartida?.attributes.stats ? handleMetros(perfilPartida?.attributes.stats?.rideDistance.toFixed(0)) : null}
-                  </p>
+                  <p>Nome: {perfilPartida?.attributes.stats && 'name' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.name : null}</p>
+                  <p>Colocação: {perfilPartida?.attributes.stats && 'winPlace' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.winPlace : null}°</p>
+                  <p>Tempo de sobrevivencia: {perfilPartida?.attributes.stats && 'timeSurvived' in perfilPartida?.attributes.stats ? handleMinutos(perfilPartida?.attributes.stats?.timeSurvived) : null}</p>
+                  <p>Nocautes: {perfilPartida?.attributes.stats && 'DBNOs' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.DBNOs : null}</p>
+                  <p>Mortes: {perfilPartida?.attributes.stats && 'kills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.kills : null}</p>
+                  <p>Assistencias: {perfilPartida?.attributes.stats && 'assists' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.assists : null}</p>
+                  <p>Dano causado: {perfilPartida?.attributes.stats && 'damageDealt' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.damageDealt.toFixed(0) : null}</p>
+                  <p>Tiros na cabeça: {perfilPartida?.attributes.stats && 'headshotKills' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.headshotKills : null}</p>
+                  <p>Morte mais distante: {perfilPartida?.attributes.stats && 'longestKill' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.longestKill.toFixed(0) : null}m</p>
+                  <p>Reviveu companheiros: {perfilPartida?.attributes.stats && 'revives' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.revives : null}</p>
+                  <p>N° itens de cura: {perfilPartida?.attributes.stats && 'heals' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.heals : null}</p>
+                  <p>N° itens de reforço: {perfilPartida?.attributes.stats && 'boosts' in perfilPartida?.attributes.stats ? perfilPartida?.attributes.stats?.boosts : null}</p>
+                  <p>Distancia percorrida de carro: {perfilPartida?.attributes.stats && 'rideDistance' in perfilPartida?.attributes.stats ? handleMetros(perfilPartida?.attributes.stats?.rideDistance.toFixed(0)) : null}</p>
                   <p>Distancia percorrida apé: {perfilPartida?.attributes.stats && 'walkDistance' in perfilPartida?.attributes.stats ? handleMetros(perfilPartida?.attributes.stats?.walkDistance.toFixed(0)) : null}</p>
                 </div>
               }
