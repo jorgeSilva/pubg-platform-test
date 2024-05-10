@@ -1,9 +1,34 @@
-export default async function Home() {
+'use client'
+
+import { useProviderNavbar } from "@/context/navbarContent";
+import React from "react";
+import PlayerComponent from "@/components/player/Player";
+import PreHomeComponent from "@/components/prehome/PreHome";
+import style from './style.module.css'
+
+export default function Home() {
+  const { user, nickname, erro } = useProviderNavbar()
 
   return (
-    <main>
-      <h2>Home</h2>
-      <p>essa era pra ser a home que apareceria para todos né</p>
+    <main className={style.home_container}>
+      {  
+        (
+          erro && (
+            <PreHomeComponent erro={erro}/>
+          )
+        )
+        ||
+        (
+          user ?
+          (
+            <PlayerComponent user={user}/>
+          )
+          :
+          (
+            <PreHomeComponent erro={erro}/>
+          )
+        )
+      }
     </main>
-  );
+  )
 }

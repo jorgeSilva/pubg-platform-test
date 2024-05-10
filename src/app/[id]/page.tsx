@@ -9,7 +9,7 @@ export type IURL = {
   }
 }
 
-type IUser = {
+export type IUser = {
   data: [{
     attributes: {
       banType: string,

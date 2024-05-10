@@ -1,0 +1,20 @@
+.prehome_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.prehome_icon{
+  margin-bottom: 2rem;
+}
+
+.prehome_ul{
+  font-size: 1.15rem;
+}
+
+.prehome_li{
+  margin-left: 1.5rem;
+  font-size: 1rem;
+}
