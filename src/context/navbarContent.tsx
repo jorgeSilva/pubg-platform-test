@@ -1,15 +1,20 @@
 'use client'
 
 import { IUser } from "@/app/[id]/page";
+import { IClan } from "@/components/player/Player";
 import React from "react";
 
 type INavbar = {
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
+  setClan: React.Dispatch<React.SetStateAction<IClan | null>>;
   setNickname: React.Dispatch<React.SetStateAction<string | null>>;
   setErro: React.Dispatch<React.SetStateAction<string | null>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean | null>>;
   nickname: string | null;
+  clan: IClan | null;
   user: IUser | null;
   erro: string | null;
+  loading: boolean | null;
 }
 
 const NavbarContext = React.createContext<INavbar | null>(null)
@@ -25,14 +30,20 @@ export const NavbarProvider = ({children}: React.PropsWithChildren) => {
   const [nickname, setNickname] = React.useState<string | null>(null)
   const [user, setUser] = React.useState<IUser | null>(null)
   const [erro, setErro] = React.useState<string | null>(null)
+  const [loading, setLoading] = React.useState<boolean | null>(null)
+  const [clan, setClan] = React.useState<IClan | null>(null)
   
   return <NavbarContext.Provider value={{
     setUser, 
+    setClan,
     setNickname, 
     setErro,
+    setLoading,
     nickname, 
+    clan,
     user,
-    erro
+    erro,
+    loading
   }}>
     {children}
   </NavbarContext.Provider>

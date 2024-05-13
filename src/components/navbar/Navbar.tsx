@@ -12,6 +12,7 @@ import Link from "next/link";
 import { IUser } from "@/app/[id]/page"
 import { fetchApiPubgUser } from "@/actions/fetch-api-pubg-stats"
 import { useProviderNavbar } from "@/context/navbarContent"
+import { font_title } from "@/app/fonts"
 
 
 export default function NavbarComponenet(){
@@ -20,9 +21,10 @@ export default function NavbarComponenet(){
     setNickname, 
     setUser,
     setErro,
+    setLoading,
     nickname,
     user,
-    erro
+    erro,
   } = useProviderNavbar()
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({target}) =>{
@@ -41,14 +43,17 @@ export default function NavbarComponenet(){
     if(!nickname){
       return setErro('Deve passar o nickname')
     }
-
+    
+    setLoading(true)
     const response: IUser = await fetchApiPubgUser(nickname)
 
     if(!response.data){
+      setLoading(false)
       setErro('Jogador não encontrado')
       setUser(null)
     }
     if(response.data){
+      setLoading(false)
       setErro(null)
       setUser(response)
     }
@@ -82,7 +87,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Estátisticas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Estátisticas</p>
             </button>
 
             <button onClick={handleClick} className={style.navbar_button_content}>
@@ -96,7 +101,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Armas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Armas</p>
             </button>
 
             <button onClick={handleClick} className={style.navbar_button_content}>
@@ -110,7 +115,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Partidas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Partidas</p>
             </button>
           </>
           :
@@ -126,7 +131,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Estátisticas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Estátisticas</p>
             </button>
 
             <button onClick={handleClickAlert} className={style.navbar_button_content}>
@@ -140,7 +145,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Armas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Armas</p>
             </button>
 
             <button onClick={handleClickAlert} className={style.navbar_button_content}>
@@ -154,7 +159,7 @@ export default function NavbarComponenet(){
                   priority
                 />
               </span>
-              <p className={style.navbar_button_text}>Partidas</p>
+              <p className={`${style.navbar_button_text} ${font_title.className}`}>Partidas</p>
             </button>
           </>
         }

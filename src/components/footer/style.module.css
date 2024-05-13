@@ -1,0 +1,27 @@
+.footer_content{
+  background-color: #FBA81F;
+  width: 100%;
+  display: grid;
+  grid-row: auto 60px;
+}
+
+.footer_content_img{
+  background: url("../../../assets/icons/footer.png") center center;
+  width: 100%;
+  height: 300px;
+}
+
+.footer_content_text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-row: 2;
+  padding: 2rem;
+}
+
+@media (max-width: 556px) {
+  .footer_content_text{
+    flex-direction: column;    
+    gap: .5rem;
+  }
+}

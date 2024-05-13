@@ -4,6 +4,7 @@ import "./globals.css";
 import FooterComponenet from "@/components/footer/Footer";
 import NavbarComponenet from "@/components/navbar/Navbar";
 import { NavbarProvider } from "@/context/navbarContent";
+import { font_body } from "./fonts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${font_body.className} ${font_body.variable}`}>
         <NavbarProvider>
           <div className="container">
             <div className="slot">

@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 
-body{
-  --font-title-one: (--font-title)
+html{
+  --font-body: var(--font-body)
 }
 
 .container{
@@ -13,7 +13,7 @@ body{
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto auto;
   grid-gap: 1.25rem;
-  padding: .5rem .5rem 0 .5rem;
+  padding: .5rem 0 0 0;
 }
 
 .slot{
@@ -44,9 +44,58 @@ body{
 
 .footer_slot{
   grid-row: 3;
+  grid-column: 1 / -1;
+  min-height: 35vh;
+}
+
+@media (max-width: 850px) {
+  .slot{
+    grid-column: 1 / -1;
+    padding: 0 2rem;
+    grid-gap: 1rem;
+  }
+  
+  .slot_footer{
+    grid-gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .slot{
+    padding: 0 .5rem;
+  }
 }
 
 .focus{
   box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
   cursor: pointer;
+}
+
+.loader {
+  margin-top: 1rem;
+  margin-left: -1rem;
+  box-sizing: border-box;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+}
+.loader:after, .loader:before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  transform-origin: 0px 100%;
+  background: #fea;
+}
+.loader:before {
+  transform-origin: 0 50%;
+  background: #fb1;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
