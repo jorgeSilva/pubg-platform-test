@@ -60,17 +60,39 @@ export default function PlayerComponent(user: {user: IUser | null}){
           </div>
           :
           <ul className={style.player_ul}>
-            <li className={style.player_name}>
-              Nome jogador: {user.user?.data[0].attributes.name}
+            <li className={style.player_li}>
+              <p className={style.player_name}>
+                {user.user?.data[0].attributes.name}
+              </p>
+              <p className={style.player_description}>
+                Nome jogador
+              </p>
             </li>
-            <li>
-              Nome Clã: {clan?.data.attributes.clanName}
+
+            <li className={style.player_li}>
+              <p className={style.player_name}>
+                {clan?.data.attributes.clanName}
+              </p>
+              <p className={style.player_description}>
+                Nome Clã
+              </p>
             </li>
-            <li>
-              Tag Clã: {clan?.data.attributes.clanTag}
+
+            <li className={style.player_li}>
+              <p className={style.player_name}>
+                {clan?.data.attributes.clanTag}
+              </p>
+              <p className={style.player_description}>
+                Tag Clã
+              </p> 
             </li>
-            <li>
-              Plataforma: {user.user?.data[0].attributes.shardId}
+            <li className={style.player_li}>
+              <p className={style.player_name}>
+                {user.user?.data[0].attributes.shardId}
+              </p>
+              <p className={style.player_description}>
+                Plataforma
+              </p> 
             </li>
           </ul>
         )

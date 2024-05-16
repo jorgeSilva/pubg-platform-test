@@ -1,6 +1,9 @@
 .player_ul{
   /* background-color: aquamarine; */
   padding: 0 1rem;
+  list-style: none;
+  display: flex;
+  justify-content: center;
 }
 
 .player_loader{
@@ -11,6 +14,22 @@
   height: auto;
 }
 
+.player_li{
+  line-height: 1rem;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+}
+
 .player_name{
-  font-size: 1rem;
+  font-size: 1.25rem;
+  padding-bottom: .5rem;
+}
+
+.player_description{
+  color: #808080;
 }

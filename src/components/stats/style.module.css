@@ -1,0 +1,39 @@
+.stats_container{
+  /* min-height: 60vh; */
+}
+/* 
+.stats_content{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: minmax() auto;
+  gap: 1rem;
+}
+
+.stats_input{
+  height: 30px;
+  background-color: aquamarine;
+  grid-row: 1;
+  grid-column: 1; 
+}
+
+.stats_offensive{
+  grid-column: 1;
+  grid-row: 2;
+  background-color: aqua;
+}
+
+.stats_survival{
+  
+}
+
+.stats_healer{
+  
+}
+
+.stats_distances{
+  
+}
+
+.stats_friends{
+  
+} */

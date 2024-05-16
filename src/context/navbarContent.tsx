@@ -8,11 +8,13 @@ type INavbar = {
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   setClan: React.Dispatch<React.SetStateAction<IClan | null>>;
   setNickname: React.Dispatch<React.SetStateAction<string | null>>;
+  setButtonNavbarActive: React.Dispatch<React.SetStateAction<string | null>>;
   setErro: React.Dispatch<React.SetStateAction<string | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean | null>>;
   nickname: string | null;
   clan: IClan | null;
   user: IUser | null;
+  buttonNavbarActive: string | null;
   erro: string | null;
   loading: boolean | null;
 }
@@ -30,6 +32,7 @@ export const NavbarProvider = ({children}: React.PropsWithChildren) => {
   const [nickname, setNickname] = React.useState<string | null>(null)
   const [user, setUser] = React.useState<IUser | null>(null)
   const [erro, setErro] = React.useState<string | null>(null)
+  const [buttonNavbarActive, setButtonNavbarActive] = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState<boolean | null>(null)
   const [clan, setClan] = React.useState<IClan | null>(null)
   
@@ -37,11 +40,13 @@ export const NavbarProvider = ({children}: React.PropsWithChildren) => {
     setUser, 
     setClan,
     setNickname, 
+    setButtonNavbarActive,
     setErro,
     setLoading,
     nickname, 
     clan,
     user,
+    buttonNavbarActive,
     erro,
     loading
   }}>

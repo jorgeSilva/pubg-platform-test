@@ -71,6 +71,20 @@ html{
   cursor: pointer;
 }
 
+ .buttonActive {
+  box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
+  background-color: #D4D4D4;
+}
+
+.spanActive{
+  background-color: #FBA81F !important;
+}
+
+.textActive{
+  font-weight: 600 !important;
+  transition: .2s ease !important;
+}
+
 .loader {
   margin-top: 1rem;
   margin-left: -1rem;
@@ -99,3 +113,12 @@ html{
     transform: rotate(360deg);
   }
 }
+
+.content_stats{
+  grid-template-areas: 
+    "input survival distances"
+    "offensive survival distances"
+    "friends healer distances"
+  ;
+}
+
