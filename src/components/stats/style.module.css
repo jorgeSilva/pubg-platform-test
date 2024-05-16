@@ -37,3 +37,69 @@
 .stats_friends{
   
 } */
+
+.stats_content_search{
+  display: flex;
+}
+
+.navbar_search_input{
+  display: flex;
+  background-color: #e8e8e8;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid #e0e0e0;
+  border-left: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+  border-right: none;
+  border-radius: .8rem 0 0 .8rem;
+  padding: .5rem 1rem;
+  width: 15rem;
+  height: 2.5rem;
+  outline: none;
+  transition: .3s ease ;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+
+.navbar_search_content_span{
+  background-color: #e8e8e8;
+  height: 2.5rem;
+  padding-right: 1rem;
+  border-top: 2px solid #e0e0e0;
+  border-right: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+  border-left: none;
+  border-radius:  0 .8rem .8rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s ease ;
+}
+
+.navbar_search_icon_active{
+  animation: rotate .3s ease-in-out forwards;
+}
+
+.navbar_search_icon_disable{
+  animation: desrotate .3s ease-in-out forwards;
+}
+
+@keyframes rotate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(180deg);
+  }
+}
+
+@keyframes desrotate {
+  from {
+      transform: rotate(180deg);
+  }
+  to {
+      transform: rotate(0deg);
+  }
+}

@@ -1,14 +1,17 @@
 'use client'
 
 import { fetchApiPubgStats } from "@/actions/fetch-api-pubg-stats"
-import { IStatsFormt, handleDias, handleMetros, handleMinutos } from "@/app/[id]/page"
+import { IStatsFormt } from "@/app/[id]/page"
 import { useProviderNavbar } from "@/context/navbarContent"
-import { resourceUsage } from "process"
+import { handleDias, handleMetros, handleMinutos } from "@/utils/functions"
 import React from "react"
 import style from './style.module.css'
 import ErrorUtils from "@/utils/Error"
+import IconArrowBottom from '@/../assets/icons/Path (Stroke)icons.svg'
+import Image from "next/image"
 
 export default function StatsComponent(){
+  const [isSelectFocoused, setIsSelectFocoused] = React.useState<boolean>(false)
   const [stats, setStats] = React.useState<IStatsFormt | null>(null)
   const [modo, setModo] = React.useState('')
   const { setLoading, setErro, user, loading, erro } = useProviderNavbar()
@@ -51,18 +54,30 @@ export default function StatsComponent(){
       {
         stats && erro === null ?
         <div className={`${style.stats_content}`}>
-          <select className={`${style.stats_input} input`} name="modo" id="modo" onChange={({target}) => {
-            setModo(target.value)
-          }}>
-            <option id="modo" value={'apresentacao'}>Modo de Jogo</option>
-            <option id="modo" value={''}></option>
-            <option id="modo" value={'solo'}>Solo TPP</option>
-            <option id="modo" value={'solo_fpp'}>Solo FPP</option>
-            <option id="modo" value={'duo'}>Duo TPP</option>
-            <option id="modo" value={'duo_fpp'}>Duo FPP</option>
-            <option id="modo" value={'squad'}>Squad TPP</option>
-            <option id="modo" value={'squad_fpp'}>Squad FPP</option>
-          </select>
+          <div className={style.stats_content_search}>
+            <select onFocus={() => setIsSelectFocoused(true)} onBlur={() => setIsSelectFocoused(false)} className={`${style.navbar_search_input} input`} name="modo" id="modo" onChange={({target}) => {
+              setModo(target.value)
+            }}>
+              <option id="modo" value={'apresentacao'}>Modo de Jogo</option>
+              <option id="modo" value={''}></option>
+              <option id="modo" value={'solo'}>Solo TPP</option>
+              <option id="modo" value={'solo_fpp'}>Solo FPP</option>
+              <option id="modo" value={'duo'}>Duo TPP</option>
+              <option id="modo" value={'duo_fpp'}>Duo FPP</option>
+              <option id="modo" value={'squad'}>Squad TPP</option>
+              <option id="modo" value={'squad_fpp'}>Squad FPP</option>
+            </select>
+            <span className={style.navbar_search_content_span}>
+              <Image 
+                className={`${style.navbar_search_icon} ${isSelectFocoused ? style.navbar_search_icon_active : style.navbar_search_icon_disable}`}
+                src={IconArrowBottom}
+                width={12}
+                height={12}
+                alt="Icone estatistica pubg"
+                priority
+              />
+            </span>
+          </div>
 
             {
               (
