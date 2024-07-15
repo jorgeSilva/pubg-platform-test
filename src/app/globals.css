@@ -115,10 +115,20 @@ html{
 }
 
 .content_stats{
-  grid-template-areas: 
-    "input survival distances"
-    "offensive survival distances"
-    "friends healer distances"
-  ;
+  display: grid;
+  padding-top: .5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
 }
 
+@media (max-width: 1382px){
+  .content_stats{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 620px){
+  .content_stats{
+    grid-template-columns: 1fr;
+  }
+}

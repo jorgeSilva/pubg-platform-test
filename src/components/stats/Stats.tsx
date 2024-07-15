@@ -50,7 +50,7 @@ export default function StatsComponent(){
   }, [user])
 
   return (
-    <section className={style.stats_container}>
+    <section>
       {
         stats && erro === null ?
         <div className={`${style.stats_content}`}>
@@ -59,7 +59,6 @@ export default function StatsComponent(){
               setModo(target.value)
             }}>
               <option id="modo" value={'apresentacao'}>Modo de Jogo</option>
-              <option id="modo" value={''}></option>
               <option id="modo" value={'solo'}>Solo TPP</option>
               <option id="modo" value={'solo_fpp'}>Solo FPP</option>
               <option id="modo" value={'duo'}>Duo TPP</option>
@@ -82,7 +81,7 @@ export default function StatsComponent(){
             {
               (
                 modo === "solo_fpp" &&
-                <>
+                <div className="content_stats">
                   <div className={style.stats_offensive}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.solo_fpp.dBNOs}</p>
@@ -132,12 +131,12 @@ export default function StatsComponent(){
                     <p> Suicidios: {stats.solo_fpp.suicides}</p>
                     <p> Vezes que matou um colega de equipe: {stats.solo_fpp.teamKills}</p>
                   </div>
-                </>
+                </div>
               )
               ||
               (
                 modo === "solo" &&
-                <>
+                <div className="content_stats">
                   <div className={style.stats_offensive}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.solo.dBNOs}</p>
@@ -187,12 +186,12 @@ export default function StatsComponent(){
                     <p> Suicidios: {stats.solo.suicides}</p>
                     <p> Vezes que matou um colega de equipe: {stats.solo.teamKills}</p>
                   </div>
-                </>
+                </div>
               )
               ||
               (
                 modo === "duo_fpp" &&
-                <>
+                <div className="content_stats">
                   <div className={style.stats_offensive}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.duo_fpp.dBNOs}</p>
@@ -242,12 +241,12 @@ export default function StatsComponent(){
                     <p> Suicidios: {stats.duo_fpp.suicides}</p>
                     <p> Vezes que matou um colega de equipe: {stats.duo_fpp.teamKills}</p>
                   </div>
-                </>
+                </div>
               )
               ||
               (
                 modo === "duo" &&
-                <>
+                <div className="content_stats">
                   <div className={style.stats_offensive}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.duo.dBNOs}</p>
@@ -297,12 +296,13 @@ export default function StatsComponent(){
                     <p> Suicidios: {stats.duo.suicides}</p>
                     <p> Vezes que matou um colega de equipe: {stats.duo.teamKills}</p>
                   </div>
-                </>
+                </div>
               )
               ||
               (
                 modo === "squad_fpp" &&
-                <div className=" content_stats">
+                <div className="content_stats">
+                  
                   <div className={`${style.stats_offensive} offensive`}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.squad_fpp.dBNOs}</p>
@@ -357,7 +357,7 @@ export default function StatsComponent(){
               ||
               (
                 modo === "squad" &&
-                <>
+                <div className="content_stats">
                   <div className={style.stats_offensive}>
                     <h4>Estátisticas ofensivas</h4>
                     <p> Nocautes: {stats.squad.dBNOs}</p>
@@ -408,7 +408,7 @@ export default function StatsComponent(){
                     <p> Vezes que matou um colega de equipe: {stats.squad.teamKills}</p>
                   </div>
                   
-                </>
+                </div>
               )
             }
         </div>
