@@ -1,6 +1,6 @@
 'use server'
 
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3Y2U1YzczMC1jYTg4LTAxM2MtZWJhNS0zNjg3NTE2NDZiZTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExMTE4NjE2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii0zYzlhZWUxNS02ZjAyLTQ5MzYtYjU5NC0xYjZmNTcxZjMzMTEifQ.JId6M-0Ow5yoE1cRmHsV8QuTgmOji0FcnK7FPSSBIEs"
+const token = process.env.TOKEN_API
 
 export async function fetchApiPubgUser(params: string){
   try{
