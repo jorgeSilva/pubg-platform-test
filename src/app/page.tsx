@@ -33,7 +33,7 @@ export default function Home() {
               ||
               (
                 buttonNavbarActive === 'armas' &&
-                <WeaponComponent/>
+                <WeaponComponent user={user}/>
               )
               ||
               (

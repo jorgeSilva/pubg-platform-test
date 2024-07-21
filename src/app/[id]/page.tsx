@@ -279,7 +279,7 @@ export type IStatsFormt = {
   }
 }
 
-type IWeapons =  {
+export type IWeapons =  {
   name: string,
   weapon: {
     CompetitiveStatsTotal: {

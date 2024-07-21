@@ -17,3 +17,7 @@ export function handleMetros(metros: any){
   const m = metros % 1000
   return `${ km < 1 ? '' : (km.toFixed(0)+'km')} ${m.toFixed(0)}m`
 }
+
+export function formatNumber(e: number){
+  return new Intl.NumberFormat('de-DE').format(e);
+}
